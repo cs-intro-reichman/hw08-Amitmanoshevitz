@@ -51,7 +51,7 @@ class PlayList {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < size; i++) {
-            sb.append(tracks[i].toString()); // Ensure you call toString() method on Track objects
+            sb.append(tracks[i]);
             sb.append("\n");
         }
         return sb.toString();
@@ -78,9 +78,7 @@ class PlayList {
      *  If such a track is not found, returns -1. */
     public int indexOf(String title) {
         for (int i = 0; i < size; i++) {
-            if (title.equals(tracks[i].getTitle()) ||
-                title.equals(tracks[i].getTitle().toUpperCase()) ||
-                title.equals(tracks[i].getTitle().toLowerCase())) {
+            if (title.equalsIgnoreCase(tracks[i].getTitle())) {
                 return i;
             }
         }
@@ -118,10 +116,8 @@ class PlayList {
         }
     }
 
-
     /** Removes the first track that has the given title from this list.
-     *  If such a track is not found, or the list is empty, or the given index
-     *  is negative or too big for this list, does nothing. */
+     *  If such a track is not found, or the list is empty, does nothing. */
     public void remove(String title) {
         int index = indexOf(title); 
         if (index != -1 && size != 0){
@@ -138,7 +134,6 @@ class PlayList {
     
     /** Adds all the tracks in the other list to the end of this list. 
      *  If the total size of both lists is too large, does nothing. */
-    //// An elegant and terribly inefficient implementation.
     public void add(PlayList other) {
         int p2Size = other.getSize();
         int sum = p2Size + size;
