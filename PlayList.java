@@ -98,9 +98,15 @@ class PlayList {
         if (index < 0 || index > size || size == maxSize) {
             return false;  
         }
+    
         for (int i = size - 1; i >= index; i--) {
             tracks[i + 1] = tracks[i]; 
         }
+    
+        tracks[index] = track;
+        size++; 
+        return true; 
+    }
      
     /** Removes the track in the given index from this list.
      *  If the list is empty, or the given index is negative or too big for this list, 
