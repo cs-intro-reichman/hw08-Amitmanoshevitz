@@ -55,7 +55,8 @@ public class PlayListMethodTester {
         playList.add(new Track("Imagine", "John Lennon", 187));
     
         playList.removeLast(); // Should remove "Imagine"
-    
+       //System.out.print(playList);
+
         if (playList.getSize() == 1 && playList.indexOf("Imagine") == -1) {
             System.out.println("testRemoveLast: PASS");
         } else {
