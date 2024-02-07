@@ -1,6 +1,6 @@
 import javax.print.attribute.standard.MediaSize.Other;
 
-/** Represnts a list of musical tracks. The list has a maximum capacity (int),
+/** Represents a list of musical tracks. The list has a maximum capacity (int),
  *  and an actual size (number of tracks in the list, an int). */
 class PlayList {
     private Track[] tracks;  // Array of tracks (Track objects)   
@@ -51,9 +51,8 @@ class PlayList {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < size; i++) {
-            
-            sb.append(tracks[i]);
-            sb.append("\n"); 
+            sb.append(tracks[i].toString()); // Ensure you call toString() method on Track objects
+            sb.append("\n");
         }
         return sb.toString();
     }
@@ -98,11 +97,9 @@ class PlayList {
         if (index < 0 || index > size || size == maxSize) {
             return false;  
         }
-    
         for (int i = size - 1; i >= index; i--) {
             tracks[i + 1] = tracks[i]; 
         }
-    
         tracks[index] = track;
         size++; 
         return true; 
@@ -177,11 +174,17 @@ class PlayList {
         return minIndex; 
     }
 
+
+
+
     /** Returns the title of the shortest track in this list. 
      *  If the list is empty, returns null. */
     public String titleOfShortestTrack() {
         return tracks[minIndex(0)].getTitle();
     }
+
+
+
 
     /** Sorts this list by increasing duration order: Tracks with shorter
      *  durations will appear first. The sort is done in-place. In other words,
@@ -198,5 +201,4 @@ class PlayList {
             }
         }
     }
-    }
-
+}
