@@ -1,12 +1,10 @@
-import javax.print.attribute.standard.MediaSize.Other;
-
-/*** Represnts a list of musical tracks. The list has a maximum capacity (int),
+/** Represnts a list of musical tracks. The list has a maximum capacity (int),
  *  and an actual size (number of tracks in the list, an int). */
 class PlayList {
     private Track[] tracks;  // Array of tracks (Track objects)   
     private int maxSize;     // Maximum number of tracks in the array
     private int size;        // Actual number of tracks in the array
-    
+
     /** Constructs an empty play list with a maximum number of tracks. */ 
     public PlayList(int maxSize) {
         this.maxSize = maxSize;
@@ -32,20 +30,19 @@ class PlayList {
             return null;
         }
     }
-
+    
     /** Appends the given track to the end of this list. 
      *  If the list is full, does nothing and returns false.
      *  Otherwise, appends the track and returns true. */
     public boolean add(Track track) {
-        if (size < maxSize) { 
-            tracks[size] = track; 
-            size++; 
-            return true; 
-        } else {
-            return false; 
-        }
+       if (size < maxSize) {
+        tracks[size++] = track;
+        return true;
+       }
+        return false;
     }
- /** Returns the data of this list, as a string. Each track appears in a separate line. */
+
+    /** Returns the data of this list, as a string. Each track appears in a separate line. */
     //// For an efficient implementation, use StringBuilder.
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -80,11 +77,11 @@ class PlayList {
     public int indexOf(String title) {
         String lowerCaseTitle = title.toLowerCase();
         for (int i = 0; i < size; i++) {
-           if (tracks[i].getTitle().toLowerCase().equals(lowerCaseTitle)){ 
-    return i;
+            if (tracks[i].getTitle().toLowerCase().equals(lowerCaseTitle)){ 
+              return i;
             }
         }
-    return -1;
+        return -1;
     }
 
     /** Inserts the given track in index i of this list. For example, if the list is
@@ -95,15 +92,14 @@ class PlayList {
      *  returns true. */
     public boolean add(int i, Track track) {
         if ( i < 0 ||  i > size || size >= maxSize) {
-            return false;}
-
+            return false;
+        }
         for (int j = size; j > i; j--) {
-            tracks[j] = tracks[j - 1];}
-        
+            tracks[j] = tracks[j - 1];
+        }
         tracks[i] = track;
         size++;
-
-
+        
         return true;
     }
      
@@ -111,16 +107,14 @@ class PlayList {
      *  If the list is empty, or the given index is negative or too big for this list, 
      *  does nothing and returns -1. */
     public void remove(int i) {
-        if ( i < size && i >= 0 &&  size > 0  ) {
+        if ( size > 0 && i < size && i >= 0 ) {
             tracks[i] = null;
             size--;
-    
+            
             for (int j = i; j < size; j++) {
                 tracks[j] = tracks[j + 1];
             }   
-        } 
-        
-        else {System.out.println("-1");
+        } else {System.out.println("-1");
     }
     }
 
@@ -130,11 +124,11 @@ class PlayList {
     public void remove(String title) {
         if ( size > 0 ) {
             for (int i = 0; i < size; i++) {
-            if (tracks[i].getTitle().equals(title)) {
-            for (int j = i; j < size - 1; j++) {
-                tracks[j] = tracks[j + 1];}
-                tracks[size - 1] = null;
-                  
+                if (tracks[i].getTitle().equals(title)) {
+                    for (int j = i; j < size - 1; j++) {
+                        tracks[j] = tracks[j + 1];
+                    }
+                    tracks[size - 1] = null;
                     size--;
                     break;
                 }
@@ -145,8 +139,7 @@ class PlayList {
     /** Removes the first track from this list. If the list is empty, does nothing. */
     public void removeFirst() {
         if (size > 0) {
-            int i = 0;
-            for (i=0; i < size - 1; i ++) {
+            for (int i = 0; i < size - 1; i ++) {
                 tracks[i] = tracks[i + 1];
             }
             tracks[size - 1] = null;
@@ -158,10 +151,8 @@ class PlayList {
      *  If the total size of both lists is too large, does nothing. */
     //// An elegant and terribly inefficient implementation.
      public void add(PlayList other) {
-        int i = 0;
         if (size + other.size <= this.maxSize) {
-
-            for (i=0; i < other.size; i ++) {
+            for (int i = 0; i < other.size; i ++) {
                 if (size + i < this.maxSize) {
                     tracks[size + 1] = other.getTrack(i);
                 }
@@ -177,20 +168,20 @@ class PlayList {
      *  If start is negative or greater than size - 1, returns -1.
      */
     private int minIndex(int start) {
-        if ( start <= size -1 && start >= 0  ) {
-            int shortestD = tracks[start].getDuration();
-            int mIndex = start;
+        if ( start >= 0 && start <= size -1) {
+            int shortestDuration = tracks[start].getDuration();
+            int minIndex = start;
             
             for (int i = start + 1; i < size; i++) {
-                if (tracks[i].getDuration() < shortestD) {
-                    shortestD = tracks[i].getDuration();
-                    mIndex = i;
+                if (tracks[i].getDuration() < shortestDuration) {
+                    shortestDuration = tracks[i].getDuration();
+                    minIndex = i;
                 }
-            } return mIndex;
-        } 
-        
-        else {
-        return -1;   
+
+            }
+            return minIndex;
+        } else {
+            return -1;   
         }
     }
 
@@ -205,16 +196,15 @@ class PlayList {
      *  rather than returning a new, sorted playlist, the method sorts
      *  the list on which it was called (this list). */
     public void sortedInPlace() {
-        int i = 0;
-        for ( i= 0 ; i < size -1; i++) {
-            int minInd = minIndex(i);
+        // Uses the selection sort algorithm,  
+        // calling the minIndex method in each iteration.
+        for (int i = 0; i < size -1; i++) {
+            int minIndex = minIndex(i);
+
             Track temp = tracks[i];
-
-
-            tracks[i] = tracks[minInd];
-            tracks[minInd] = temp;
+            tracks[i] = tracks[minIndex];
+            tracks[minIndex] = temp;
 
         }
     }
 }
-
