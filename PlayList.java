@@ -1,6 +1,6 @@
 import javax.print.attribute.standard.MediaSize.Other;
 
-/** Represents a list of musical tracks. The list has a maximum capacity (int),
+/** Represnts a list of musical tracks. The list has a maximum capacity (int),
  *  and an actual size (number of tracks in the list, an int). */
 class PlayList {
     private Track[] tracks;  // Array of tracks (Track objects)   
@@ -51,8 +51,9 @@ class PlayList {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < size; i++) {
+
             sb.append(tracks[i]);
-            sb.append("\n");
+            sb.append("\n"); 
         }
         return sb.toString();
     }
@@ -78,7 +79,9 @@ class PlayList {
      *  If such a track is not found, returns -1. */
     public int indexOf(String title) {
         for (int i = 0; i < size; i++) {
-            if (title.equalsIgnoreCase(tracks[i].getTitle())) {
+            if (title.equals(tracks[i].getTitle()) ||
+                title.equals(tracks[i].getTitle().toUpperCase()) ||
+                title.equals(tracks[i].getTitle().toLowerCase())) {
                 return i;
             }
         }
@@ -91,14 +94,15 @@ class PlayList {
      *  If i is negative or greater than the size of this list, or if the list
      *  is full, does nothing and returns false. Otherwise, inserts the track and
      *  returns true. */
-    public boolean add(int index, Track track) {
-        if (index < 0 || index > size || size == maxSize) {
+    public boolean add(int i, Track track) {
+        if (i < 0 || i > size || size >= maxSize) {
             return false;  
         }
-        for (int i = size - 1; i >= index; i--) {
-            tracks[i + 1] = tracks[i]; 
+        
+        for (int j = size; j > i; j--) {
+            tracks[j] = tracks[j-1]; 
         }
-        tracks[index] = track;
+        tracks[i] = track;
         size++; 
         return true; 
     }
@@ -116,8 +120,10 @@ class PlayList {
         }
     }
 
+
     /** Removes the first track that has the given title from this list.
-     *  If such a track is not found, or the list is empty, does nothing. */
+     *  If such a track is not found, or the list is empty, or the given index
+     *  is negative or too big for this list, does nothing. */
     public void remove(String title) {
         int index = indexOf(title); 
         if (index != -1 && size != 0){
@@ -134,6 +140,7 @@ class PlayList {
     
     /** Adds all the tracks in the other list to the end of this list. 
      *  If the total size of both lists is too large, does nothing. */
+    //// An elegant and terribly inefficient implementation.
     public void add(PlayList other) {
         int p2Size = other.getSize();
         int sum = p2Size + size;
@@ -169,17 +176,11 @@ class PlayList {
         return minIndex; 
     }
 
-
-
-
     /** Returns the title of the shortest track in this list. 
      *  If the list is empty, returns null. */
     public String titleOfShortestTrack() {
         return tracks[minIndex(0)].getTitle();
     }
-
-
-
 
     /** Sorts this list by increasing duration order: Tracks with shorter
      *  durations will appear first. The sort is done in-place. In other words,
@@ -196,4 +197,5 @@ class PlayList {
             }
         }
     }
-}
+    }
+
