@@ -184,8 +184,15 @@ class PlayList {
      *  rather than returning a new, sorted playlist, the method sorts
      *  the list on which it was called (this list). */
     public void sortedInPlace() {
-        // Uses the selection sort algorithm,  
-        // calling the minIndex method in each iteration.
-        //// replace this statement with your code
+        for (int i = 0; i < size - 1; i++) {
+            int minIdx = minIndex(i); 
+            if (minIdx != i) { 
+                
+                Track temp = tracks[i];
+                tracks[i] = tracks[minIdx];
+                tracks[minIdx] = temp;
+            }
+        }
+    }
     }
 }
