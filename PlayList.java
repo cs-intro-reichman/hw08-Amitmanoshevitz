@@ -51,14 +51,16 @@ class PlayList {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < size; i++) {
-            sb.append(tracks[i]).append("\n"); 
+            
+            sb.append(tracks[i]);
+            sb.append("\n"); 
         }
         return sb.toString();
     }
 
     /** Removes the last track from this list. If the list is empty, does nothing. */
     public void removeLast() {
-        if (size != 0) { 
+        if (size > 0) { 
             tracks[size - 1] = null; 
             size--;  
         }
@@ -96,15 +98,9 @@ class PlayList {
         if (index < 0 || index > size || size == maxSize) {
             return false;  
         }
-    
         for (int i = size - 1; i >= index; i--) {
             tracks[i + 1] = tracks[i]; 
         }
-
-        tracks[index] = track;
-        size++; 
-        return true; 
-    }
      
     /** Removes the track in the given index from this list.
      *  If the list is empty, or the given index is negative or too big for this list, 
