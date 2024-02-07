@@ -51,24 +51,25 @@ class PlayList {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < size; i++) {
-            sb.append(tracks[i]); }
-
+            sb.append(tracks[i]).append("\n"); 
+        }
         return sb.toString();
     }
 
     /** Removes the last track from this list. If the list is empty, does nothing. */
-     public void removeLast() {
+    public void removeLast() {
         if (size != 0) { 
-            tracks[size] = null; 
-            size--;  }
+            tracks[size - 1] = null; 
+            size--;  
+        }
     }
     
     /** Returns the total duration (in seconds) of all the tracks in this list.*/
     public int totalDuration() {
         int sum = 0;
-         for(int i = 0; i < size; i++){
-        sum = sum + tracks[i].getDuration();
-     }
+        for(int i = 0; i < size; i++){
+            sum += tracks[i].getDuration(); 
+        }
         return sum;
     }
 
@@ -76,9 +77,9 @@ class PlayList {
      *  If such a track is not found, returns -1. */
     public int indexOf(String title) {
         for (int i = 0; i < size; i++) {
-            if (title == tracks[i].getTitle() ||
-                title == tracks[i].getTitle().toUpperCase() ||
-                title == tracks[i].getTitle().toLowerCase()) {
+            if (title.equals(tracks[i].getTitle()) ||
+                title.equals(tracks[i].getTitle().toUpperCase()) ||
+                title.equals(tracks[i].getTitle().toLowerCase())) {
                 return i;
             }
         }
@@ -93,10 +94,12 @@ class PlayList {
      *  returns true. */
     public boolean add(int index, Track track) {
         if (index < 0 || index > size || size == maxSize) {
-            return false;  }
+            return false;  
+        }
     
         for (int i = size - 1; i >= index; i--) {
-            tracks[i + 1] = tracks[i]; }
+            tracks[i + 1] = tracks[i]; 
+        }
 
         tracks[index] = track;
         size++; 
@@ -112,7 +115,7 @@ class PlayList {
                 tracks[j] = tracks[j + 1];
             }
             tracks[size - 1] = null;
-                        size--;
+            size--;
         }
     }
 
@@ -122,7 +125,7 @@ class PlayList {
      *  is negative or too big for this list, does nothing. */
     public void remove(String title) {
         int index = indexOf(title); 
-        if ((index != -1) || size == 0 || index > maxSize ){
+        if (index != -1 && size != 0){
             remove(index);
         }
     }
@@ -139,7 +142,6 @@ class PlayList {
     //// An elegant and terribly inefficient implementation.
     public void add(PlayList other) {
         int p2Size = other.getSize();
-       // int p2MaxSize = other.getMaxSize();
         int sum = p2Size + size;
     
         if (sum <= maxSize) { 
@@ -158,7 +160,7 @@ class PlayList {
      */
     private int minIndex(int start) {
         if (start < 0 || start >= size) {
-            return -1; // Return -1 if the start index is out of bounds
+            return -1; 
         }
         int minDur = tracks[start].getDuration();
         int minIndex = start; 
@@ -195,4 +197,4 @@ class PlayList {
         }
     }
     }
-}
+
