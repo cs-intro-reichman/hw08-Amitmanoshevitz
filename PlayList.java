@@ -37,7 +37,6 @@ class PlayList {
      *  If the list is full, does nothing and returns false.
      *  Otherwise, appends the track and returns true. */
     public boolean add(Track track) {
-        
         if (size < maxSize) { 
             tracks[size] = track; 
             size++; 
@@ -71,16 +70,17 @@ class PlayList {
         int totalDur = 0;
         int i = 0;
         for (i = 0; i < size; i++){
-            totalDur = totalDur + tracks[i].getDuration(); }
+            totalDur += tracks[i].getDuration(); }
         return totalDur;
     }
 
     /** Returns the index of the track with the given title in this list.
      *  If such a track is not found, returns -1. */
     public int indexOf(String title) {
-        title = title.toLowerCase();
+        String loCaTitle = title.toLowerCase();
         for (int i = 0; i < size; i++) {
-           if (tracks[i].getTitle().toLowerCase().equals(title))
+           if (
+            tracks[i].getTitle().toLowerCase().equals(loCaTitle))
             { return i; }
         }
         return -1;
@@ -179,9 +179,7 @@ class PlayList {
      *  If start is negative or greater than size - 1, returns -1.
      */
     private int minIndex(int start) {
-        if ( start < size -1 || start >= 0  ) {
-        return -1;}
-        
+        if ( start <= size -1 && start >= 0  ) {
             int mIndex = start;
             int SDur = tracks[start].getDuration();
             int i = 0;
@@ -189,9 +187,13 @@ class PlayList {
             for (i = start + 1; i < size; i++) {
                 if (tracks[i].getDuration() < SDur) {
                     SDur = tracks[i].getDuration();
-                mIndex = i;}
-             } 
-                return mIndex;
+                mIndex = i;
+                } } 
+                return mIndex;}
+
+        else {
+        return -1;   
+        }
     }
 
     /** Returns the title of the shortest track in this list. 
