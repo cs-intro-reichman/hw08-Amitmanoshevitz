@@ -70,17 +70,16 @@ class PlayList {
         int totalDur = 0;
         int i = 0;
         for (i = 0; i < size; i++){
-            totalDur += tracks[i].getDuration(); }
+            totalDur = totalDur + tracks[i].getDuration();}
         return totalDur;
     }
 
     /** Returns the index of the track with the given title in this list.
      *  If such a track is not found, returns -1. */
     public int indexOf(String title) {
-        String loCaTitle = title.toLowerCase();
         for (int i = 0; i < size; i++) {
-           if (
-            tracks[i].getTitle().toLowerCase().equals(loCaTitle))
+            title = title.toLowerCase();
+           if ( tracks[i].getTitle().toLowerCase().equals(title))
             { return i; }
         }
         return -1;
